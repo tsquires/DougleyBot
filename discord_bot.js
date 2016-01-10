@@ -128,29 +128,6 @@ var commands = {
       }
     }
   },
-  "cleverbot": {
-    name: "cleverbot",
-    description: "Talk to Cleverbot!",
-    extendedhelp: "I'll act as Cleverbot when you execute this command, remember to enter a message as suffix.",
-    usage: "<message>",
-    process: function(bot, msg, suffix) {
-      Cleverbot.prepare(function() {
-        bot.startTyping(msg.channel);
-        cleverbot.write(suffix, function(response) {
-          bot.sendMessage(msg.channel, response.message);
-          bot.stopTyping(msg.channel);
-        });
-      });
-    }
-  },
-  "devs": {
-    name: "devs",
-    description: "Prints the devs of DougleyBot to the channel.",
-    extendedhelp: "This will print the Discord ID's from the developers of DougleyBot to the channel.",
-    process: function(bot, msg, suffix) {
-      bot.sendMessage(msg.channel, "Made with love by <@107904023901777920> and <@108125505714139136>. <3 <@110147170740494336> did stuff too.");
-    }
-  },
   "status": {
     name: "status",
     description: "Prints the stats from the instance into the chat.",
@@ -171,6 +148,14 @@ var commands = {
     extendedhelp: "I'll respond to you with hello along with a GitHub link, handy!",
     process: function(bot, msg) {
       bot.sendMessage(msg.channel, "Hello " + msg.sender + "! I'm " + bot.user.username + ", help me grow by contributing to my GitHub: https://github.com/SteamingMutt/DougleyBot");
+    }
+  },
+  "stranger": {
+    name: "stranger",
+    description: "Quotes the Exo Stranger.",
+    extendedhelp: "Quotes the Exo Stranger.",
+    process: function(bot, msg) {
+      bot.sendMessage(msg.channel, msg.sender + ", I don't have time to explain why I don't have time to explain.");
     }
   },
   "server-info": {
@@ -970,32 +955,6 @@ var commands = {
           });
         } else {
           Logger.log("warn", "Got an error: ", error, ", status code: ", response.statusCode);
-        }
-      });
-    }
-  },
-  "csgoprice": {
-    name: "csgoprice",
-    description: "Gives the price of a CSGO skin. Very picky regarding capitalization and punctuation.",
-    extendedhelp: "I'll give you the price of a CS:GO skin.",
-    usage: '[weapon "AK-47"] [skin "Vulcan"] [[wear "Factory New"] [stattrak "(boolean)"]] Quotes are important!',
-    process: function(bot, msg, suffix) {
-      skinInfo = suffix.split('"');
-      var csgomarket = require('csgo-market');
-      csgomarket.getSinglePrice(skinInfo[1], skinInfo[3], skinInfo[5], skinInfo[7], function(err, skinData) {
-        if (err) {
-          Logger.log('error', err);
-          bot.sendMessage(msg.channel, "That skin is so super secret rare, it doesn't even exist!");
-        } else {
-          if (skinData.success === true) {
-            if (skinData.stattrak) {
-              skinData.stattrak = "Stattrak";
-            } else {
-              skinData.stattrak = "";
-            }
-            var msgArray = ["Weapon: " + skinData.wep + " " + skinData.skin + " " + skinData.wear + " " + skinData.stattrak, "Lowest Price: " + skinData.lowest_price, "Number Available: " + skinData.volume, "Median Price: " + skinData.median_price, ];
-            bot.sendMessage(msg.channel, msgArray);
-          }
         }
       });
     }
