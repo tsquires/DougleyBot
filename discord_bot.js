@@ -1059,6 +1059,31 @@ var commands = {
         bot.sendMessage(msg.channel, "created alias " + name);
       }
     }
+  },
+  "dead": {
+    name: "dead",
+    description: "Use if funky killed chat",
+    extendedhelp: "Or anybody else really",
+    usage: "<aliasname> <actual command> (without cmdPrefix)",
+    process: function(bog, msg, suffix) {
+      bot.sendMessage(msg.channel, "http://www.wikihow.com/Come-Up-with-Good-Conversation-Topics");
+    }
+  },
+  "revive": {
+    name: "revive",
+    description: "Use in case of emergency to revive chat",
+    extendedhelp: "Use in case of emergency to revive chat",
+    usage: "<aliasname> <actual command> (without cmdPrefix)",
+    process: function(bot, msg, suffix) {
+      var tags = suffix.split(" ");
+      get_gif(tags, function(id) {
+        if (typeof id !== "undefined") {
+          bot.sendMessage(msg.channel, "http://media.giphy.com/media/" + id + "/giphy.gif [Tags: " + (tags ? tags : "Random GIF") + "]");
+        } else {
+          bot.sendMessage(msg.channel, "Invalid tags, try something different. For example, something that exists [Tags: " + (tags ? tags : "Random GIF") + "]");
+        }
+      });
+    }
   }
 };
 
