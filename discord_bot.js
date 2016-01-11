@@ -41,7 +41,7 @@ var htmlToText = require('html-to-text');
 var config = {
   "api_key": "dc6zaTOxFJmzC",
   "rating": "r",
-  "url": "http://api.giphy.com/v1/gifs/search",
+  "url": "http://api.giphy.com/v1/gifs/random",
   "permission": ["NORMAL"]
 };
 
@@ -1365,13 +1365,12 @@ function get_gif(tags, func) {
   var params = {
     "api_key": config.api_key,
     "rating": config.rating,
-    "format": "json",
-    "limit": 1
+    "fmt": "json"
   };
   var query = qs.stringify(params);
 
   if (tags !== null) {
-    query += "&q=" + tags.join('+');
+    query += "&tag=" + tags.join('+');
   }
 
   //wouldnt see request lib if defined at the top for some reason:\
@@ -1386,9 +1385,9 @@ function get_gif(tags, func) {
       //Logger.log("debug", response)
     } else {
       var responseObj = JSON.parse(body);
-      Logger.log("debug", responseObj.data[0]);
-      if (responseObj.data.length) {
-        func(responseObj.data[0].id);
+      Logger.log("debug", responseObj.data);
+      if (responseObj.data) {
+        func(responseObj.data.id);
       } else {
         func(undefined);
       }
